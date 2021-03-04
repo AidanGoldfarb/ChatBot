@@ -1,11 +1,49 @@
-use rust_bert::pipelines::conversation::{ConversationManager, ConversationModel};
+use rust_bert::pipelines::conversation::{
+    ConversationConfig, ConversationManager, ConversationModel,
+};
+use rust_bert::resources::{LocalResource, Resource};
+use std::path::PathBuf;
 
 mod lib;
 
 fn start_repl() {
-    //TODO Replace default with custom trained model
-    let conv_model = ConversationModel::new(Default::default()).unwrap();
+    let config = ConversationConfig {
+        model_resource: Resource::Local(LocalResource {
+            local_path: PathBuf::from("rust_model.ot"),
+        }),
+        /*
+        config_resource: Resource::Remote(RemoteResource::from_pretrained(
+            Gpt2ConfigResources::DIALOGPT_MEDIUM,
+        )),
+        vocab_resource: Resource::Remote(RemoteResource::from_pretrained(
+            Gpt2VocabResources::DIALOGPT_MEDIUM,
+        )),
+        merges_resource: Resource::Remote(RemoteResource::from_pretrained(
+            Gpt2MergesResources::DIALOGPT_MEDIUM,
+        )),
+        min_length: 0,
+        max_length: 1000,
+        min_length_for_response: 32,
+        do_sample: true,
+        early_stopping: false,
+        num_beams: 1,
+        temperature: 1.0,
+        top_k: 50,
+        top_p: 0.9,
+        repetition_penalty: 1.0,
+        length_penalty: 1.0,
+        no_repeat_ngram_size: 0,
+        num_return_sequences: 1,
+        num_beam_groups: None,
+        diversity_penalty: None,
+        device: Device::cuda_if_available(),
+        */
+        ..Default::default()
+    };
+
+    let conv_model = ConversationModel::new(config).unwrap();
     let mut conv_manager = ConversationManager::new();
+    let conv_id = conv_manager.create_empty();
     let mut buf = String::new();
 
     lib::print_ted_line("Hi, I'm Ted. How may I help you today?");
@@ -16,7 +54,7 @@ fn start_repl() {
         match ln.trim() {
             "(over)" | "(o)" | "." => {
                 let trimmed = buf.trim();
-                conv_manager.create(&trimmed);
+                let _ = conv_manager.get(&conv_id).unwrap().add_user_input(&trimmed);
                 match conv_model
                     .generate_responses(&mut conv_manager)
                     .values()
@@ -29,9 +67,8 @@ fn start_repl() {
             }
             "(over and out)" | "(oo)" | "bye" => {
                 let trimmed = buf.trim();
-                // The next line should be the replaced with model interaction
                 if trimmed.len() != 0 {
-                    conv_manager.create(&trimmed);
+                    let _ = conv_manager.get(&conv_id).unwrap().add_user_input(&trimmed);
                     match conv_model
                         .generate_responses(&mut conv_manager)
                         .values()
