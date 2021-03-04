@@ -1,15 +1,22 @@
+use std::env;
+use std::fs::File;
+use std::io::Read;
 use rust_bert::pipelines::question_answering::{QaInput, QuestionAnsweringModel};
 
 mod lib;
 
-const CONFIDENCE_THRESHOLD: f64 = 0.75;
+const CONFIDENCE_THRESHOLD: f64 = 0.0;
 
-fn start_repl() {
-    //TODO Replace default with custom trained model
+fn read_context(path: &str) -> String {
+    let mut fis = File::open(path).unwrap();
+    let mut ctx = String::new();
+    let _res = fis.read_to_string(&mut ctx);
+    ctx
+}
+
+fn start_repl(context_input: String) {
     let qa_model = QuestionAnsweringModel::new(Default::default()).unwrap();
-    //TODO Add context
     let mut buf = String::new();
-    let context_input = String::from("My name is Ted.");
 
     lib::print_ted_line("Hi, I'm Ted. How may I help you today?");
     loop {
@@ -23,8 +30,10 @@ fn start_repl() {
                 let context = context_input.clone();
                 let ans = &qa_model.predict(&vec![QaInput{ question, context }], 1, 32)[0];
                 if ans.len() > 0 && ans[0].score > CONFIDENCE_THRESHOLD {
+                    println!("[DEBUG] Confidence: {}", ans[0].score);
                     lib::print_ted_line(&ans[0].answer)
                 } else {
+                    println!("[DEBUG] Confidence: {}", ans[0].score);
                     lib::print_ted_line("I don't have a good answer to that question. Wanna ask something else?")
                 }
                 buf = String::new()
@@ -55,5 +64,10 @@ fn start_repl() {
 }
 
 fn main() {
-    start_repl()
+    let args: Vec<String> = env::args().collect();
+    if args.len() < 2 {
+      println!("Usage: {} <context.txt>", args[0]);
+    } else {
+      start_repl(read_context(&args[1]));
+    }
 }
