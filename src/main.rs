@@ -1,19 +1,23 @@
-use std::env;
-use std::collections::HashMap;
-use rust_bert::pipelines::question_answering::{QaInput, QuestionAnsweringModel};
 use regex::Regex;
+use rust_bert::pipelines::question_answering::{QaInput, QuestionAnsweringModel};
+use std::collections::HashMap;
+use std::env;
 
 mod lib;
 
 const CONFIDENCE_THRESHOLD: f64 = 0.0;
 const DEFAULT_ENTRY: &str = "default";
 
-fn respond(dbmap: &HashMap<String, String>, question: String, model: &QuestionAnsweringModel) -> Option<String> {
+fn respond(
+    dbmap: &HashMap<String, String>,
+    question: String,
+    model: &QuestionAnsweringModel,
+) -> Option<String> {
     let re: Regex = Regex::new(r"CSC[ ]?([0-9]{3}[W,H]?)").unwrap();
     let mut ctx_key = String::from("CSC");
     match re.captures(&question) {
         Some(cap) => ctx_key += cap.get(1).unwrap().as_str(),
-        None => ctx_key = String::from(DEFAULT_ENTRY)
+        None => ctx_key = String::from(DEFAULT_ENTRY),
     }
     let context: String = if dbmap.contains_key(&ctx_key) {
         dbmap.get(&ctx_key).unwrap().to_string()
@@ -21,7 +25,7 @@ fn respond(dbmap: &HashMap<String, String>, question: String, model: &QuestionAn
         dbmap.get(&DEFAULT_ENTRY.to_string()).unwrap().to_string()
     };
 
-    let ans = &model.predict(&vec![QaInput{question, context}], 1, 32)[0];
+    let ans = &model.predict(&vec![QaInput { question, context }], 1, 32)[0];
     if ans.len() > 0 && ans[0].score > CONFIDENCE_THRESHOLD {
         Some(ans[0].answer.clone())
     } else {
@@ -43,7 +47,9 @@ fn start_repl(dbmap: HashMap<String, String>) {
                 let trimmed = buf.trim();
                 match respond(&dbmap, String::from(trimmed), &qa_model) {
                     Some(ans) => lib::print_ted_line(&ans),
-                    None => lib::print_ted_line("I don't have a good answer to that question. Wanna ask something else?")
+                    None => lib::print_ted_line(
+                        "I don't have a good answer to that question. Wanna ask something else?",
+                    ),
                 }
                 buf = String::new()
             }
@@ -53,7 +59,9 @@ fn start_repl(dbmap: HashMap<String, String>) {
                 if trimmed.len() != 0 {
                     match respond(&dbmap, String::from(trimmed), &qa_model) {
                         Some(ans) => lib::print_ted_line(&ans),
-                        None => lib::print_ted_line("I don't have a good answer to that question. But bye!")
+                        None => lib::print_ted_line(
+                            "I don't have a good answer to that question. But bye!",
+                        ),
                     }
                 } else {
                     lib::print_ted_line("Bye!");
@@ -71,8 +79,8 @@ fn start_repl(dbmap: HashMap<String, String>) {
 fn main() {
     let args: Vec<String> = env::args().collect();
     if args.len() < 2 {
-      println!("Usage: {} <database_dir>", args[0]);
+        println!("Usage: {} <database_dir>", args[0]);
     } else {
-      start_repl(lib::get_db(&args[1]));
+        start_repl(lib::get_db(&args[1]));
     }
 }

@@ -1,6 +1,6 @@
-use std::fs::{File,read_dir};
-use std::io::Read;
 use std::collections::HashMap;
+use std::fs::{read_dir, File};
+use std::io::Read;
 
 /// Prints a line in accordance to Ted's format
 pub fn print_ted_line(line: &str) {
@@ -15,7 +15,10 @@ pub fn get_db(path: &str) -> HashMap<String, String> {
         let mut fis = File::open(&fp).unwrap();
         let mut ctx = String::new();
         let _res = fis.read_to_string(&mut ctx);
-        map.insert(String::from(fp.file_name().unwrap().to_str().unwrap()), ctx.clone());
+        map.insert(
+            String::from(fp.file_name().unwrap().to_str().unwrap()),
+            ctx.clone(),
+        );
     }
     //TODO panic on no default (bad db)
     map
