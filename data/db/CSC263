@@ -1,4 +1,4 @@
 CSC263 has the course title "Data Management Systems".
 CSC263 is a 4.0 credit course taught by Fatemeh Nargesian.
 CSC263 is offered every Spring.
-<span>This course explores the internals of data engines. Topics covered will include the relational model; relational database design principles based on dependencies and normal forms; query execution; transactions; recovery; query optimization; parallel query processing; NoSQL. </span> Prerequisites:<span>CSC 173 and CSC 252 (or CSC 261)</span>
+This course explores the internals of data engines. Topics covered will include the relational model; relational database design principles based on dependencies and normal forms; query execution; transactions; recovery; query optimization; parallel query processing; NoSQL.  Prerequisites:CSC173 and CSC252 (or CSC261)

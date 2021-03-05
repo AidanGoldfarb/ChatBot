@@ -1,4 +1,4 @@
 CSC246 has the course title "Machine Learning".
 CSC246 is a 4.0 credit course taught by Adam Purtee.
 CSC246 is offered every Spring.
-Mathematical foundations of classification, regression, and decisionmaking. Perceptron algorithm, logistic regression, and support vector machines. Numerical parameter optimization, including gradientdescent and quasi-Newton methods. Expectation Maximization. Hidden Markov models and reinforcement learning. Principal Components Analysis. Learning theory including VC-dimension and PAC learning guarantees. Prerequisites: MATH 164 &amp; MATH 165, <span>CSC 242 (and therefore CSC 172)  strongly recommended.</span>
+Mathematical foundations of classification, regression, and decisionmaking. Perceptron algorithm, logistic regression, and support vector machines. Numerical parameter optimization, including gradientdescent and quasi-Newton methods. Expectation Maximization. Hidden Markov models and reinforcement learning. Principal Components Analysis. Learning theory including VC-dimension and PAC learning guarantees. Prerequisites: MATH164 and MATH165, CSC242 (and therefore CSC172)  strongly recommended.

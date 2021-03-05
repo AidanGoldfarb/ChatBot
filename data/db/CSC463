@@ -1,4 +1,4 @@
 CSC463 has the course title "Data Management Systems".
 CSC463 is a 4.0 credit course taught by Fatemeh Nargesian.
 CSC463 is offered every Spring.
-<span>This course explores the internals of data engines. Topics covered will include the relational model; relational database design principles based on dependencies and normal forms; query execution; transactions; recovery; query optimization; parallel query processing; NoSQL. </span>
+This course explores the internals of data engines. Topics covered will include the relational model; relational database design principles based on dependencies and normal forms; query execution; transactions; recovery; query optimization; parallel query processing; NoSQL. 

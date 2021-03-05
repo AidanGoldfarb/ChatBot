@@ -8,6 +8,7 @@ import argparse
 import csv
 import sys
 import xml.etree.ElementTree as ET
+from bs4 import BeautifulSoup as Soup
 
 
 def update_terms(course, term):
@@ -43,10 +44,14 @@ if __name__ == '__main__':
         update_terms(course, term)
         course['credits'] = c.find('credits').text.strip()
         course['instructor'] = c.find('instructors').text
-        course['description'] = c.find('description').text
+        course['description'] = Soup(c.find('description').text, 'lxml').text
+        try:
+            float(course['credits'])
+        except:
+            continue
         data[cnum] = course
 
-    csvwriter = csv.writer(sys.stdout)
+    csvwriter = csv.writer(sys.stdout, delimiter='|')
     csvwriter.writerow(['CourseNo', 'CourseTitle', 'TermsOffered', 'Credits',
                         'Instructor', 'Description'])
     for cnum, course in data.items():

@@ -5,10 +5,10 @@ import csv
 
 def main():
     if len(sys.argv) < 2:
-        print('Usage: {} file.csv' % sys.argv[0])
+        print('Usage: entry_generator.py file.csv')
         sys.exit(1)
     with open(sys.argv[1], 'r') as fis:
-        reader = csv.reader(fis)
+        reader = csv.reader(fis, delimiter='|')
         s = True
         for row in reader:
             if s:
@@ -27,7 +27,7 @@ def main():
                      f'{row[0]} is a {row[3]} credit course taught by {row[4]}.\n'
                      f'{row[0]} is offered every {offer}.\n'
                      f'{row[5]}\n')
-            with open('data/db/'+row[0], 'w') as fos:
+            with open('../data/db/'+row[0], 'w') as fos:
                 fos.write(entry)
 
 
