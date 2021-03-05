@@ -1,1 +1,4 @@
-CSC404 has the course title "Multiprocessor Arch". CSC404 is a 4.0 credit course taught by Michael Huang. CSC404 is offered every "Summer Spring Fall ". This course provides in-depth discussions of the design and implementation issues of multiprocessor system architecture. Topics include cache coherence, memory consistency, interconnect, their interplay and impact on the design of high-performance micro-architectures. prerequisite: ECE200 or CSC252 or permission of instructor
+CSC404 has the course title "Multiprocessor Arch".
+CSC404 is a 4.0 credit course taught by Michael Huang.
+CSC404 is offered every Spring.
+This course provides in-depth discussions of the design and implementation issues of multiprocessor system architecture. Topics include cache coherence, memory consistency, interconnect, their interplay and impact on the design of high-performance micro-architectures. prerequisite</p><p>ECE 200 or CSC 252 or permission of instructor

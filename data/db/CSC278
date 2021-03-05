@@ -1,1 +1,4 @@
-CSC278 has the course title "Computer Security Foundations". CSC278 is a 4.0 credit course taught by John Criswell. CSC278 is offered every "Summer Spring Fall ". This course will teach students the foundations of computer security. Students will learn what security is, the design principles of secure systems, how security is enforced, and how security is compromised. Topics include access controls, information flow, basic applications of cryptography, buffer overflow attacks, and malware. Prerequisites: CSC252
+CSC278 has the course title "Computer Security Foundations".
+CSC278 is a 4.0 credit course taught by John Criswell.
+CSC278 is offered every Spring.
+This course will teach students the foundations of computer security. Students will learn what security is, the design principles of secure systems, how security is enforced, and how security is compromised. Topics include access controls, information flow, basic applications of cryptography, buffer overflow attacks, and malware. Prerequisites: CSC 252
