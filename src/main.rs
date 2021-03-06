@@ -13,7 +13,7 @@ fn respond(
     question: String,
     model: &QuestionAnsweringModel,
 ) -> Option<String> {
-    let re: Regex = Regex::new(r"CSC[ ]?([0-9]{3}[W,H]?)").unwrap();
+    let re: Regex = Regex::new(r"(?i)CSC[ ]?([0-9]{3}[W,H]?)").unwrap();
     let mut ctx_key = String::from("CSC");
     match re.captures(&question) {
         Some(cap) => ctx_key += cap.get(1).unwrap().as_str(),
