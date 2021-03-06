@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Parses the XML returned from
-# https://cdcs.ur.rochester.edu/XMLQuery.aspx?id=XML&div=1&dept=CSC
+# https://cdcs.ur.rochester.edu/XMLQuery.aspx?id=XML&div=1&dept=CSC&type=Lecture
 # and outputs it in CSV format.
 
 import argparse
