@@ -28,4 +28,6 @@ Can I double major in computer science and data science?
 .
 Can I use csc291 for writing credit?
 .
+What will I learn in Intro to CS?
+.
 (over and out)
