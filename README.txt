@@ -1,66 +1,63 @@
 CSC200: Chatbot Implementation Project
 ======================================
 
-This project is an implementation of CSC200's Chatbot Assignment. Please see
-report.pdf for more details.
+This project is an implementation of CSC200's Chatbot Assignment.
+Please see the report for details on the design and evaluation.
 
 ## Contributors
+
 - Adian Goldfarb (agoldfa7)
 - Paul Ouellette (pouellet)
 - Rafaello Sanna (rsanna)
 - Yiyao Yu (yyu57)
 
-## Dependencies
-The following external dependencies are required:
+## Overview
+
+There are two separate chatbot implementations provided for this assignment:
+
+- `chatbot-qa`, based on `rust-bert` Q&A pipeline using DistilBERT
+- `chatbot-conv`, based on `rust-bert` conversation pipeline using DialoGPT
+
+The reason for using two different models is so that we can provide a
+comparison of the two for our report.
+
+## Build
+
+Cargo is required to build the project.
+To build both chatbot implementations, run the following command:
+
+    cargo build --release
+
+The following Rust crates will be downloaded:
 
 - `rust-bert`: needed for transformer based models and pipelines
 - `regex`: needed for pattern matching in Q&A model implementation
 - `levenshtein`: needed for fuzzy matching in Q&A model
 
-## Usage/Implementations
+## Usage
 
-There are two separate implementations of ChatBot provided for this assignment:
-- Q&A Model, based on `rust-bert` Q&A pipeline using DistilBERT
-- Conversataion Model, based on `rust-bert` conversation pipeline using DialoGPT
-
-The reason for providing two different models is so that we can provide a
-comparison of the two for our report. Please see report.pdf for more details.
-
-Usage:
 ```
-# Q&A model
-$ chatbot-qa <database_location>
+chatbot-qa <database_location>
 
-# Conversation model
-$ chatbot-conv <model.ot>
+chatbot-conv <model.ot>
 ```
 
-For the Q&A model, a database location needs to be specified, an example
-database is provided in `data/db`. Similarly, the Conversation model requires
-a specified model, which can be downloaded here: 
+For the Q&A chatbot, a database location needs to be specified.
+A database is provided in `data/db`.
+The conversation chatbot takes a path to the model, which can be downloaded here: 
 https://drive.google.com/file/d/1SORixMxmf9Lb8Vus9XB8vFjj4SWQ3Zbe/view?usp=sharing
 
-## Building/Testing
-`Cargo` is required to build/run/test the project. To do so, go into the
-corresponding crate directory and run the following commands:
+Running with Cargo:
 
+```sh
+# Q&A chatbot:
+cargo run --release --bin chatbot-qa data/db
+
+# Conversation chatbot:
+cargo run --release --bin chatbot-conv model.ot
+
+# Test the Q&A chatbot on some example queries:
+cargo run --release --bin chatbot-qa  data/db < example_queries.txt
 ```
-# Build:
-$ cargo build --release
-
-# Run with Q&A model:
-$ cargo run --release --bin chatbot-qa <args>
-
-# Run with conversation model:
-$ cargo run --release --bin chatbot-conv <args>
-```
-
-## Known Issues
-- The Q&A model can only take one course number at a time, and can only..
-respond to questions (not statements). These constraints are due to some..
-initial assumptions we made about the problem. See `report.pdf` for details.
-- The Conversation model may take some time to respond on some low-end systems..
-This is due to it being fairly computation heavy. We have tested that it will ..
-eventually generate a reponse.
 
 <> vim: set syntax=markdown:
