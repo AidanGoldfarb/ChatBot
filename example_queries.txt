@@ -10,6 +10,10 @@ Are there any research opportunities in the department?
 .
 Who teaches CSC254?
 .
+Who teaches Intro to AI?
+.
+Who teaches Introduction to Artificial Intelligence?
+.
 When is CSC282 offered?
 .
 How many credits is CSC200H?

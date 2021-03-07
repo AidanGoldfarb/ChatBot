@@ -10,6 +10,13 @@ report.pdf for more details.
 - Rafaello Sanna (rsanna)
 - Yiyao Yu (yyu57)
 
+## Dependencies
+The following external dependencies are required:
+
+- `rust-bert`: needed for transformer based models and pipelines
+- `regex`: needed for pattern matching in Q&A model implementation
+- `levenshtein`: needed for fuzzy matching in Q&A model
+
 ## Usage/Implementations
 
 There are two separate implementations of ChatBot provided for this assignment:
@@ -25,7 +32,7 @@ The usage of the `target/release/chat_bot` is as follows
 $ ./chat_bot <database_location>
 
 # Converstation model (chat_bot_conv)
-$ ./chat_bot
+$ ./chat_bot <model.ot>
 ```
 
 For the Q&A model, a database location needs to be specified, an example
