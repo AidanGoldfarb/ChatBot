@@ -44,8 +44,10 @@ chatbot-conv <model.ot>
 
 For the Q&A chatbot, a database location needs to be specified.
 A database is provided in `data/db`.
-The conversation chatbot takes a path to the model, which can be downloaded here: 
-https://drive.google.com/file/d/1SORixMxmf9Lb8Vus9XB8vFjj4SWQ3Zbe/view?usp=sharing
+The conversation chatbot takes a path to the model, which can be downloaded here:
+https://drive.google.com/drive/folders/1v276bQhSXx8IUsXWJZrX9yXVgj41z3v5
+Due to resource limitations, models may be poorly trained and take a significant
+amount of time (a few minutes) before a response is generated
 
 Running with Cargo:
 
