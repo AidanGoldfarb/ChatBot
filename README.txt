@@ -26,13 +26,13 @@ There are two separate implementations of ChatBot provided for this assignment:
 The reason for providing two different models is so that we can provide a
 comparison of the two for our report. Please see report.pdf for more details.
 
-The usage of the `target/release/chat_bot` is as follows
+Usage:
 ```
-# Q&A model (chat_bot_qa)
-$ ./chat_bot <database_location>
+# Q&A model
+$ chatbot-qa <database_location>
 
-# Conversation model (chat_bot_conv)
-$ ./chat_bot <model.ot>
+# Conversation model
+$ chatbot-conv <model.ot>
 ```
 
 For the Q&A model, a database location needs to be specified, an example
@@ -45,11 +45,14 @@ https://drive.google.com/file/d/1SORixMxmf9Lb8Vus9XB8vFjj4SWQ3Zbe/view?usp=shari
 corresponding crate directory and run the following commands:
 
 ```
-# To compile binary target/release/chat_bot:
+# Build:
 $ cargo build --release
 
-# To run compiled binary directly from cargo:
-$ cargo run --release <args>
+# Run with Q&A model:
+$ cargo run --release --bin chatbot-qa <args>
+
+# Run with conversation model:
+$ cargo run --release --bin chatbot-conv <args>
 ```
 
 ## Known Issues

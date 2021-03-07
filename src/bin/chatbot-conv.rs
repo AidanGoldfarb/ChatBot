@@ -2,10 +2,8 @@ use rust_bert::pipelines::conversation::{
     ConversationConfig, ConversationManager, ConversationModel,
 };
 use rust_bert::resources::{LocalResource, Resource};
-use std::path::PathBuf;
 use std::env;
-
-mod lib;
+use std::path::PathBuf;
 
 fn start_repl(model_path: &str) {
     let config = ConversationConfig {
@@ -46,7 +44,7 @@ fn start_repl(model_path: &str) {
     let conv_id = conv_manager.create_empty();
     let mut buf = String::new();
 
-    lib::print_ted_line("Hi, I'm Ted. How may I help you today?");
+    chatbot::print_ted_line("Hi, I'm Ted. How may I help you today?");
     loop {
         let mut ln = String::new();
         std::io::stdin().read_line(&mut ln).unwrap();
@@ -60,8 +58,10 @@ fn start_repl(model_path: &str) {
                     .values()
                     .next()
                 {
-                    Some(response) => lib::print_ted_line(&response),
-                    None => lib::print_ted_line("I didn't quite get that, can you say it again?"),
+                    Some(response) => chatbot::print_ted_line(&response),
+                    None => {
+                        chatbot::print_ted_line("I didn't quite get that, can you say it again?")
+                    }
                 }
                 buf = String::new()
             }
@@ -74,11 +74,11 @@ fn start_repl(model_path: &str) {
                         .values()
                         .next()
                     {
-                        Some(response) => lib::print_ted_line(&response),
-                        None => lib::print_ted_line("I didn't quite get that, but bye!"),
+                        Some(response) => chatbot::print_ted_line(&response),
+                        None => chatbot::print_ted_line("I didn't quite get that, but bye!"),
                     }
                 } else {
-                    lib::print_ted_line("Bye!");
+                    chatbot::print_ted_line("Bye!");
                 }
                 return;
             }

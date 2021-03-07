@@ -1,10 +1,8 @@
+use chatbot::CourseDB;
 use levenshtein::levenshtein;
-use lib::CourseDB;
 use regex::Regex;
 use rust_bert::pipelines::question_answering::{QaInput, QuestionAnsweringModel};
 use std::env;
-
-mod lib;
 
 const CONFIDENCE_THRESHOLD: f64 = 0.0;
 
@@ -124,7 +122,7 @@ fn start_repl(db: &CourseDB) {
     let qa_model = QuestionAnsweringModel::new(Default::default()).unwrap();
     let mut buf = String::new();
 
-    lib::print_ted_line("Hi, I'm Ted. How may I help you today?");
+    chatbot::print_ted_line("Hi, I'm Ted. How may I help you today?");
     loop {
         let mut ln = String::new();
         std::io::stdin().read_line(&mut ln).unwrap();
@@ -133,8 +131,8 @@ fn start_repl(db: &CourseDB) {
             "(over)" | "(o)" | "." => {
                 let trimmed = buf.trim();
                 match respond(&db, String::from(trimmed), &qa_model) {
-                    Some(ans) => lib::print_ted_line(&ans),
-                    None => lib::print_ted_line(
+                    Some(ans) => chatbot::print_ted_line(&ans),
+                    None => chatbot::print_ted_line(
                         "I don't have a good answer to that question. Wanna ask something else?",
                     ),
                 }
@@ -145,13 +143,13 @@ fn start_repl(db: &CourseDB) {
                 // The next line should be the replaced with model interaction
                 if trimmed.len() != 0 {
                     match respond(&db, String::from(trimmed), &qa_model) {
-                        Some(ans) => lib::print_ted_line(&ans),
-                        None => lib::print_ted_line(
+                        Some(ans) => chatbot::print_ted_line(&ans),
+                        None => chatbot::print_ted_line(
                             "I don't have a good answer to that question. But bye!",
                         ),
                     }
                 } else {
-                    lib::print_ted_line("Bye!");
+                    chatbot::print_ted_line("Bye!");
                 }
                 return;
             }
