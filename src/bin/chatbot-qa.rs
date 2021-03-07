@@ -113,7 +113,7 @@ fn respond(db: &CourseDB, question: String, model: &QuestionAnsweringModel) -> O
 
     let ans = &model.predict(&vec![QaInput { question, context }], 1, 32)[0];
     if ans.len() > 0 && ans[0].score > CONFIDENCE_THRESHOLD {
-        Some(ans[0].answer.clone())
+        Some(format!("{} ({:.3})", ans[0].answer.clone(), ans[0].score))
     } else {
         None
     }
