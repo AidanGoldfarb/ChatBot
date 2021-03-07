@@ -1,5 +1,6 @@
 use chatbot::CourseDB;
 use levenshtein::levenshtein;
+use libc;
 use regex::Regex;
 use rust_bert::pipelines::question_answering::{QaInput, QuestionAnsweringModel};
 use std::env;
@@ -119,6 +120,7 @@ fn respond(db: &CourseDB, question: String, model: &QuestionAnsweringModel) -> O
 }
 
 fn start_repl(db: &CourseDB) {
+    let interactive = unsafe { libc::isatty(libc::STDIN_FILENO as i32) } != 0;
     let qa_model = QuestionAnsweringModel::new(Default::default()).unwrap();
     let mut buf = String::new();
 
@@ -130,6 +132,9 @@ fn start_repl(db: &CourseDB) {
         match ln.trim() {
             "(over)" | "(o)" | "." => {
                 let trimmed = buf.trim();
+                if !interactive {
+                    println!("{}\n.", trimmed);
+                }
                 match respond(&db, String::from(trimmed), &qa_model) {
                     Some(ans) => chatbot::print_ted_line(&ans),
                     None => chatbot::print_ted_line(
@@ -140,6 +145,9 @@ fn start_repl(db: &CourseDB) {
             }
             "(over and out)" | "(oo)" | "bye" => {
                 let trimmed = buf.trim();
+                if !interactive {
+                    println!("{}\n(over and out)", trimmed);
+                }
                 // The next line should be the replaced with model interaction
                 if trimmed.len() != 0 {
                     match respond(&db, String::from(trimmed), &qa_model) {
