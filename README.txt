@@ -10,6 +10,13 @@ report.pdf for more details.
 - Rafaello Sanna (rsanna)
 - Yiyao Yu (yyu57)
 
+## Dependencies
+The following cargo dependencies are needed for this project:
+
+- `rust-bert`: for transformer-based models and pipelines used to generate output
+- `regex`: for pattern matching course titles
+- `fuzzy-matcher`: for course title fuzzy matching
+
 ## Usage/Implementations
 
 There are two separate implementations of ChatBot provided for this assignment:
