@@ -77,11 +77,12 @@ fn parse_course_titles(question: &String, db: &CourseDB) -> String {
     }
 
     if similar.is_empty()
+        // Require >2/3 similar words
         || similar
             .iter()
             .max_by(|f1, f2| f1.partial_cmp(f2).unwrap())
             .unwrap()
-            < &0.3
+            < &0.67
     {
         "".to_string()
     } else {
