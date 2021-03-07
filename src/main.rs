@@ -6,6 +6,7 @@ use std::env;
 
 mod lib;
 
+const COURSE_MENTIONING_THRESHOLD: f32 = 0.3;
 const CONFIDENCE_THRESHOLD: f64 = 0.0;
 
 /// Heuristic to see if the word is important
@@ -82,7 +83,7 @@ fn parse_course_titles(question: &String, db: &CourseDB) -> String {
             .iter()
             .max_by(|f1, f2| f1.partial_cmp(f2).unwrap())
             .unwrap()
-            < &0.3
+            < &COURSE_MENTIONING_THRESHOLD
     {
         "".to_string()
     } else {
