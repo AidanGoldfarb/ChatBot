@@ -31,12 +31,14 @@ The usage of the `target/release/chat_bot` is as follows
 # Q&A model (chat_bot_qa)
 $ ./chat_bot <database_location>
 
-# Converstation model (chat_bot_conv)
+# Conversation model (chat_bot_conv)
 $ ./chat_bot <model.ot>
 ```
 
 For the Q&A model, a database location needs to be specified, an example
-database is provided in `data/db`.
+database is provided in `data/db`. Similarly, the Conversation model requires
+a specified model, which can be downloaded here: 
+https://drive.google.com/file/d/1SORixMxmf9Lb8Vus9XB8vFjj4SWQ3Zbe/view?usp=sharing
 
 ## Building/Testing
 `Cargo` is required to build/run/test the project. To do so, go into the
