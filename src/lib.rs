@@ -15,10 +15,10 @@ pub fn print_ted_line(line: &str) {
     println!("> (over)")
 }
 
-/// The Database of Course Information
+/// A Database of Course Information
 pub struct CourseDB {
     context_map: HashMap<String, String>,
-    title_map: HashMap<String, String>,
+    title_map: Vec<(String, String)>,
     default_context: String,
 }
 
@@ -35,17 +35,17 @@ impl CourseDB {
 
             match name {
                 "titles" => {
-		    let mut tm = HashMap::new();
+                    let mut tm = Vec::new();
 
-		    for line in ctx.lines() {
-			let mut split = line.split("|");
-			let number = split.next().unwrap();
-			let title = split.next().unwrap();
-			tm.insert(title.to_string(), number.to_string());
-		    }
+                    for line in ctx.lines() {
+                        let mut split = line.split("|");
+                        let number = split.next().unwrap();
+                        let title = split.next().unwrap();
+			tm.push((title.to_string(), number.to_string()));
+                    }
 
-		    title_map = Some(tm);
-		},
+                    title_map = Some(tm);
+                }
                 "default" => defctx = Some(ctx),
                 _ => {
                     let _ = map.insert(name.to_string(), ctx);
@@ -63,9 +63,13 @@ impl CourseDB {
     /// Returns the context of a given key,
     /// or the default if no context is found for the key
     pub fn context_of(self: &Self, key: &str) -> String {
-	match self.context_map.get(key) {
-	    Some(context) => context.clone(),
-	    None => self.default_context.clone()
-	}
+        match self.context_map.get(key) {
+            Some(context) => context.clone(),
+            None => self.default_context.clone(),
+        }
+    }
+
+    pub fn course_titles(self: &Self) -> &Vec<(String, String)> {
+	&self.title_map
     }
 }
