@@ -1,6 +1,6 @@
+use lib::CourseDB;
 use regex::Regex;
 use rust_bert::pipelines::question_answering::{QaInput, QuestionAnsweringModel};
-use std::collections::HashMap;
 use std::env;
 
 mod lib;
@@ -8,22 +8,21 @@ mod lib;
 const CONFIDENCE_THRESHOLD: f64 = 0.0;
 const DEFAULT_ENTRY: &str = "default";
 
+fn parse_context(question: &String) -> String {
+    let re: Regex = Regex::new(r"CSC[ ]?([0-9]{3}[W,H]?)").unwrap();
+    match re.captures(&question) {
+        Some(cap) => format!("CSC{}", cap.get(1).unwrap().as_str()),
+        None => String::from(DEFAULT_ENTRY),
+    }
+}
+
 fn respond(
-    dbmap: &HashMap<String, String>,
+    db: &CourseDB,
     question: String,
     model: &QuestionAnsweringModel,
 ) -> Option<String> {
-    let re: Regex = Regex::new(r"(?i)CSC[ ]?([0-9]{3}[W,H]?)").unwrap();
-    let mut ctx_key = String::from("CSC");
-    match re.captures(&question) {
-        Some(cap) => ctx_key += cap.get(1).unwrap().as_str(),
-        None => ctx_key = String::from(DEFAULT_ENTRY),
-    }
-    let context: String = if dbmap.contains_key(&ctx_key) {
-        dbmap.get(&ctx_key).unwrap().to_string()
-    } else {
-        dbmap.get(&DEFAULT_ENTRY.to_string()).unwrap().to_string()
-    };
+    let ctx_key = parse_context(&question);
+    let context = db.context_of(ctx_key.as_str());
 
     let ans = &model.predict(&vec![QaInput { question, context }], 1, 32)[0];
     if ans.len() > 0 && ans[0].score > CONFIDENCE_THRESHOLD {
@@ -33,7 +32,7 @@ fn respond(
     }
 }
 
-fn start_repl(dbmap: HashMap<String, String>) {
+fn start_repl(db: &CourseDB) {
     let qa_model = QuestionAnsweringModel::new(Default::default()).unwrap();
     let mut buf = String::new();
 
@@ -45,7 +44,7 @@ fn start_repl(dbmap: HashMap<String, String>) {
         match ln.trim() {
             "(over)" | "(o)" | "." => {
                 let trimmed = buf.trim();
-                match respond(&dbmap, String::from(trimmed), &qa_model) {
+                match respond(&db, String::from(trimmed), &qa_model) {
                     Some(ans) => lib::print_ted_line(&ans),
                     None => lib::print_ted_line(
                         "I don't have a good answer to that question. Wanna ask something else?",
@@ -57,7 +56,7 @@ fn start_repl(dbmap: HashMap<String, String>) {
                 let trimmed = buf.trim();
                 // The next line should be the replaced with model interaction
                 if trimmed.len() != 0 {
-                    match respond(&dbmap, String::from(trimmed), &qa_model) {
+                    match respond(&db, String::from(trimmed), &qa_model) {
                         Some(ans) => lib::print_ted_line(&ans),
                         None => lib::print_ted_line(
                             "I don't have a good answer to that question. But bye!",
@@ -79,8 +78,8 @@ fn start_repl(dbmap: HashMap<String, String>) {
 fn main() {
     let args: Vec<String> = env::args().collect();
     if args.len() < 2 {
-        println!("Usage: {} <database_dir>", args[0]);
+        eprintln!("Usage: {} <database_dir>", args[0]);
     } else {
-        start_repl(lib::get_db(&args[1]));
+        start_repl(&CourseDB::new(&args[1]));
     }
 }
