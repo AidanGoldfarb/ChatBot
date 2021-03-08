@@ -26,17 +26,22 @@ comparison of the two for our report.
 Cargo is required to build the project.
 To build both chatbot implementations, run the following command:
 
-    cargo build --release
+```sh
+cargo build --release
+```
 
 The following Rust crates will be downloaded:
 
 - `rust-bert`: needed for transformer based models and pipelines
 - `regex`: needed for pattern matching in Q&A model implementation
 - `levenshtein`: needed for fuzzy matching in Q&A model
+- `libc`: needed for determining whether we are reading from stdin. This uses ..
+unsafe Rust due to POSIX limitations (as system calls are otherwise impossible)..
+Usage of unsafe code has been limited to minimum possible.
 
 ## Usage
 
-```
+```sh
 chatbot-qa <database_location>
 
 chatbot-conv <model.ot>
